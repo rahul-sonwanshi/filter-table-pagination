@@ -47,7 +47,6 @@ function filterTableByType() {
     //assuming search is made
     console.log(pseudofilteredDataBySearch.length);
     if(pseudofilteredDataBySearch.length != 0) {
-        filterBySearch();
         tFilteredData = pseudofilteredDataBySearch;
     }
     else {
