@@ -5,7 +5,7 @@ var filteredData = [];
 var pseudofilteredDataBySearch = [];
 var pseudofilteredDataByType = [];
 
-fetch('/data/airports.json')
+fetch('https://rahul-sonwanshi.github.io/filter-table-pagination/data/airports.json')
     .then(response => response.json())
     .then(data => {
         console.log(data);
