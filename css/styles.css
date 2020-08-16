@@ -22,11 +22,50 @@ main {
         user-select: none; 
 }
 
+/* Content Styling */
+
+.heading {
+    font-size: 5rem;
+    font-weight: 700;
+}
+
+.headingColor {
+    color: #ccc;
+}
+
+.subHeading {
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+.filteredAirportList {
+    margin-top: 5rem;
+    font-size: 1.6rem;
+    display: grid;
+    height: 100%;
+    /* justify-content: center; */
+    align-content: center;
+}
+
+.filterWrapper {
+    display: grid;
+    grid-template-columns: 1fr 5%;
+    justify-content: center;
+    align-content: center;
+    margin-bottom: 5rem;
+}
+
+.filters {
+    display: grid;
+    grid-template-columns: 70% 30%;
+    margin-top: 5rem;
+}
+
 /* Table Settings */
 
 table {
     border-collapse: collapse;
-    width: 100%;
+    min-width: 100%;
   }
 
 tr:nth-child(even) {
@@ -93,56 +132,6 @@ tbody {
     outline: none;
 }
 
-/* Content Styling */
-
-.heading {
-    font-size: 5rem;
-    font-weight: 700;
-}
-
-.headingColor {
-    color: #ccc;
-}
-
-.subHeading {
-    font-size: 2.5rem;
-    font-weight: 700;
-}
-
-.filteredAirportList {
-    margin-top: 5rem;
-    font-size: 1.6rem;
-    display: grid;
-    height: 100%;
-    justify-content: center;
-    align-content: center;
-}
-
-/* @media only screen and (max-width: 1000px) {
-    .filteredAirportList {
-        margin-top: 5rem;
-        font-size: 1rem;
-        display: grid;
-        height: 100%;
-        justify-content: center;
-        align-content: center;
-    }
-  } */
-
-.filterWrapper {
-    display: grid;
-    grid-template-columns: 1fr 5%;
-    justify-content: center;
-    align-content: center;
-    margin-bottom: 5rem;
-}
-
-.filters {
-    display: grid;
-    grid-template-columns: 70% 30%;
-    margin-top: 5rem;
-}
-
 /* utilities */
 
 .u-margin-top-lg {
@@ -156,6 +145,8 @@ tbody {
 .u-bold {
     font-weight: 700;
 }
+
+/* Custom UI */
 
 .styled-checkbox {
     position: absolute;

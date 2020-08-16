@@ -1,9 +1,9 @@
-var showRows = 4;
-var startRow = 0;
-var rawData;
-var filteredData = [];
-var pseudofilteredDataBySearch = [];
-var pseudofilteredDataByType = [];
+var showRows = 4; // You can change this value to show more rows
+var startRow = 0; // Used to indicate start of pagination
+var rawData; // data fetched from the server
+var filteredData = []; // filtered data
+var pseudofilteredDataBySearch = []; // search filtered data by search input
+var pseudofilteredDataByType = []; // search filtered data by type
 
 fetch('https://rahul-sonwanshi.github.io/filter-table-pagination/data/airports.json')
     .then(response => response.json())
@@ -17,35 +17,42 @@ fetch('https://rahul-sonwanshi.github.io/filter-table-pagination/data/airports.j
 
 
 function populateTable(data, startRow, showRows) {
-    var table = document.getElementById('airportInfoTable');
-    var paginationContent =  document.getElementById('paginationContent');
-    let tStartRow = startRow+1;
-    let tEndRow = tStartRow+showRows;
+    try {
+        var table = document.getElementById('airportInfoTable');
+        var paginationContent =  document.getElementById('paginationContent');
+        let tStartRow = startRow+1;
+        let tEndRow = tStartRow+showRows;
 
-    paginationContent.innerHTML = 'Showing <span class="u-bold">' + tStartRow + '-' + (tEndRow < data.length ? tEndRow : data.length) + '</span> of <span class="u-bold">' + data.length + '</span> results';
+        // generating pagination bar
+        paginationContent.innerHTML = 'Showing <span class="u-bold">' + tStartRow + '-' + (tEndRow < data.length ? tEndRow : data.length) + '</span> of <span class="u-bold">' + data.length + '</span> results';
 
-    for(let i = startRow;i < startRow+showRows && i < data.length;i++) {
-        var tr = document.createElement('tr');
-        var tbody = document.getElementById('tableBody');
-        tr.innerHTML = '<td>' + data[i].name + '</td>' +
-            '<td>' + data[i].icao + '</td>' +
-            '<td>' + data[i].iata + '</td>' +
-            '<td>' + data[i].elevation + '</td>' +
-            '<td>' + data[i].latitude + '</td>' +
-            '<td>' + data[i].longitude + '</td>' +
-            '<td>' + data[i].type + '</td>';
-        tbody.appendChild(tr);
+        // generating table body
+        for(let i = startRow;i < startRow+showRows && i < data.length;i++) {
+            var tr = document.createElement('tr');
+            var tbody = document.getElementById('tableBody');
+            tr.innerHTML = '<td>' + data[i].name + '</td>' +
+                '<td>' + data[i].icao + '</td>' +
+                '<td>' + data[i].iata + '</td>' +
+                '<td>' + data[i].elevation + '</td>' +
+                '<td>' + convertToDms(data[i].latitude, false) + '</td>' +
+                '<td>' + convertToDms(data[i].longitude, true) + '</td>' +
+                '<td>' + data[i].type + '</td>';
+            tbody.appendChild(tr);
+        }
+        table.appendChild(tbody);
+        var tableContainer = document.getElementsByClassName('tableData')[0];
+        tableContainer.setAttribute('style', 'max-height: '+showRows*8.33+'vh');
     }
-    table.appendChild(tbody);
-    var tableContainer = document.getElementsByClassName('tableData')[0];
-    tableContainer.setAttribute('style', 'max-height: '+showRows*8.33+'vh');
+    catch(err) {
+        console.log("error is : "+err);
+    }
+
 }
 
 function filterTableByType() {
     filteredData = [];
     let tFilteredData = [];
     //assuming search is made
-    console.log(pseudofilteredDataBySearch.length);
     if(pseudofilteredDataBySearch.length != 0) {
         tFilteredData = pseudofilteredDataBySearch;
     }
@@ -94,62 +101,66 @@ function filterTableByType() {
 }
 
 function filterBySearch() {
-    var searchInp = document.getElementById('searchInp');
-    console.log(searchInp.value);
-    let searchVal = searchInp.value.toString().toLowerCase();
-
-    pseudofilteredDataBySearch = rawData;
-    filteredData = [];
-    let tFilteredData = [];
-
-    //assuming search is made
-    if(pseudofilteredDataByType.length != 0) {
-        tFilteredData = pseudofilteredDataByType;
-    }
-    else {
-        tFilteredData = rawData;
-    }
-
-    //breakpoint
-    if(searchVal) {
+    try {
+        var searchInp = document.getElementById('searchInp');
         
-        for(let i = 0;i < tFilteredData.length; i++) {
-            if(tFilteredData[i].name.toLowerCase().indexOf(searchVal) > -1) {
-                filteredData.push(tFilteredData[i]);
-            }
-            else if(String(tFilteredData[i].icao).toLowerCase().indexOf(searchVal) > -1) {
-                filteredData.push(tFilteredData[i]);
-            }
-            else if(String(tFilteredData[i].iata).toLowerCase().indexOf(searchVal) > -1) {
-                filteredData.push(tFilteredData[i]);
-            }
-            else if(tFilteredData[i].elevation.toString().toLowerCase().indexOf(searchVal) > -1) {
-                filteredData.push(tFilteredData[i]);
-            }
-            else if(tFilteredData[i].latitude.toString().toLowerCase().indexOf(searchVal) > -1) {
-                filteredData.push(tFilteredData[i]);
-            }
-            else if(tFilteredData[i].longitude.toString().toLowerCase().indexOf(searchVal) > -1) {
-                filteredData.push(tFilteredData[i]);
-            }
+        let searchVal = searchInp.value.toString().toLowerCase();
+
+        pseudofilteredDataBySearch = rawData;
+        filteredData = [];
+        let tFilteredData = [];
+
+        //assuming search is made
+        if(pseudofilteredDataByType.length != 0) {
+            tFilteredData = pseudofilteredDataByType;
+        }
+        else {
+            tFilteredData = rawData;
         }
 
-        //assuming
-        pseudofilteredDataBySearch = filteredData;
-        startRow = 0;
-        clearTable();
-        // console.log(filteredData);
-        populateTable(filteredData, startRow, showRows);
+        if(searchVal) {
+            
+            for(let i = 0;i < tFilteredData.length; i++) {
+                if(tFilteredData[i].name.toLowerCase().indexOf(searchVal) > -1) {
+                    filteredData.push(tFilteredData[i]);
+                }
+                else if(String(tFilteredData[i].icao).toLowerCase().indexOf(searchVal) > -1) {
+                    filteredData.push(tFilteredData[i]);
+                }
+                else if(String(tFilteredData[i].iata).toLowerCase().indexOf(searchVal) > -1) {
+                    filteredData.push(tFilteredData[i]);
+                }
+                else if(tFilteredData[i].elevation.toString().toLowerCase().indexOf(searchVal) > -1) {
+                    filteredData.push(tFilteredData[i]);
+                }
+                else if(convertToDms(tFilteredData[i].latitude, false).toString().toLowerCase().indexOf(searchVal) > -1) {
+                    filteredData.push(tFilteredData[i]);
+                }
+                else if(convertToDms(tFilteredData[i].longitude, true).toString().toLowerCase().indexOf(searchVal) > -1) {
+                    filteredData.push(tFilteredData[i]);
+                }
+            }
+
+            //assuming
+            pseudofilteredDataBySearch = filteredData;
+            startRow = 0;
+            clearTable();
+            // console.log(filteredData);
+            populateTable(filteredData, startRow, showRows);
+        }
+        else {
+            pseudofilteredDataBySearch = [];
+            filteredData = tFilteredData;
+            startRow = 0;
+            clearTable();
+            // console.log(filteredData);
+            populateTable(filteredData, startRow, showRows);
+        }
+        
     }
-    else {
-        pseudofilteredDataBySearch = [];
-        filteredData = tFilteredData;
-        startRow = 0;
-        clearTable();
-        // console.log(filteredData);
-        populateTable(filteredData, startRow, showRows);
+    catch(err) {
+        console.log("error is : "+err);
     }
-    
     
 }
 
@@ -173,4 +184,19 @@ function nextAction() {
     }
     clearTable();
     populateTable(filteredData, startRow, showRows);
+}
+
+function convertToDms(dd, isLng) { // isLng is it a Longitude to determine W / S
+    var dir = dd < 0
+      ? isLng ? 'W' : 'S'
+      : isLng ? 'E' : 'N';
+  
+    var absDd = Math.abs(dd);
+    var deg = absDd | 0;
+    var frac = absDd - deg;
+    var min = (frac * 60) | 0;
+    var sec = frac * 3600 - min * 60;
+    // Round it to 2 decimal points.
+    sec = Math.round(sec * 100) / 100;
+    return dir + deg + "°" + min + "'" + sec + '"';
 }
