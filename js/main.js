@@ -5,7 +5,7 @@ var filteredData = [];
 var pseudofilteredDataBySearch = [];
 var pseudofilteredDataByType = [];
 
-fetch('../data/airports.json')
+fetch('/data/airports.json')
     .then(response => response.json())
     .then(data => {
         console.log(data);
