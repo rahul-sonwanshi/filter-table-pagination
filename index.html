@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Airport List</title>
+        <link rel="stylesheet" href="css/styles.css">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+        <script src="https://kit.fontawesome.com/788d4c8e49.js" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        
+        <main>
+            <section class="filteredAirportList">
+
+                <div class=filterWrapper>
+                    <h1 class="heading">Filter <span class="headingColor">Airports</span></h1>
+                    <div class="icons"><i class="fas fa-th-large fa-3x"></i></div>
+
+                    <div class="filters">
+
+                        <h2 class="subHeading">Type</h2>
+                        <h2 class="subHeading">Filter By Search</h2>
+                        
+                        <div id="airportTypes" class="no-select u-margin-top-sm">
+                            <input class="styled-checkbox" id="smallAT" type="checkbox" onclick="filterTableByType()" value="smallAT">
+                            <label for="smallAT">Small</label>
+
+                            <input class="styled-checkbox" id="mediumAT" type="checkbox" onclick="filterTableByType()" value="mediumAT">
+                            <label for="mediumAT">Medium</label>
+
+                            <input class="styled-checkbox" id="largeAT" type="checkbox" onclick="filterTableByType()" value="largeAT">
+                            <label for="largeAT">Large</label>
+
+                            <input class="styled-checkbox" id="heliportAT" type="checkbox" onclick="filterTableByType()" value="heliportAT">
+                            <label for="heliportAT">Heliport</label>
+
+                            <input class="styled-checkbox" id="closedAT" type="checkbox" onclick="filterTableByType()" value="closedAT">
+                            <label for="closedAT">Closed</label>
+
+                            <input class="styled-checkbox" id="favoritesAT" type="checkbox" onclick="filterTableByType()" value="favoritesAT">
+                            <label for="favoritesAT">In Your Favorites</label>
+
+                        </div>
+
+                        <div id="searchFilter" class="u-margin-top-sm">
+                            <input class="search-input" id="searchInp" onkeyup="filterBySearch()" type="text">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tableData">
+                    <table id="airportInfoTable">
+                        <tr>
+                            <th>Name</th>
+                            <th>ICAO</th>
+                            <th>IATA</th>
+                            <th>Elev.</th>
+                            <th>Lat.</th>
+                            <th>Long.</th>
+                            <th>Type</th>
+                          </tr>
+
+                          <tbody id="tableBody"></tbody>
+                    </table>
+                </div>
+
+                <div class="paginationTable no-select">
+                    <span id="previousBtn" onclick="previousAction()"><i class="fas fa-arrow-left fa-2x"></i></span>
+                    
+                    <div id="paginationContent">Showing 5-8 of 10,382 results </div>
+                    <span id="nextBtn" onclick="nextAction()"><i class="fas fa-arrow-right fa-2x"></i></span>
+                    
+                </div>
+
+            </section>
+
+        </main>
+        <script src="js/main.js"></script>
+    </body>
+</html>
