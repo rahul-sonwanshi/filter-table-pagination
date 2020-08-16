@@ -6,7 +6,7 @@ It is a piece of code that implements table pagination and filters in VanillaJS
 
 Visit the link below
 ```
-https://rahul-sonwanshi.github.io/filter-table-pagination/index.html
+[Visit Website](https://rahul-sonwanshi.github.io/filter-table-pagination/index.html)
 ```
 
 ## License
